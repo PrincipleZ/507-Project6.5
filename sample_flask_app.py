@@ -58,7 +58,7 @@ def photo_titles(tag, num):
     # HINT: Trying out the flickr accessing code in another file and seeing what data you get will help debug what you need to add and send to the template!
     # HINT 2: This is almost all the same kind of nested data investigation
     # you've done before!
-    FLICKR_KEY = ""  # TODO: fill in a flickr key
+    FLICKR_KEY = "3f6694ebd9ca4e206eddc557edf6d289"  # TODO: fill in a flickr key
     baseurl = 'https://api.flickr.com/services/rest/'
     params = {}
     params['api_key'] = FLICKR_KEY
@@ -70,9 +70,13 @@ def photo_titles(tag, num):
     response_obj = requests.get(baseurl, params=params)
     trimmed_text = response_obj.text[14:-1]
     flickr_data = json.loads(trimmed_text)
+    res = []
+    for i in flickr_data["photos"]["photo"]:
+        res.append(i["title"])
+
     # TODO: Add some code here that processes flickr_data in some way to get what you nested
     # TODO: Edit the invocation to render_template to send the data you need
-    return render_template('photo_tags.html')
+    return render_template('photo_info.html', num=num, photo_titles=res)
 
 
 if __name__ == '__main__':
